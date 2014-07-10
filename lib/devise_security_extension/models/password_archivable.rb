@@ -51,7 +51,8 @@ module Devise
         if self.encrypted_password_changed?
           if self.class.password_archiving_count.to_i > 0
             self.old_passwords.create! old_password_params
-            self.old_passwords.order(:id).reverse_order.offset(self.class.password_archiving_count).destroy_all
+            #todo-an improve sql logic... performance improvement
+            self.old_passwords.order(:id).reverse_order.where.not(id: self.old_passwords.order(:id).reverse_order.limit(self.class.password_archiving_count).pluck(:id)).destroy_all
           else
             self.old_passwords.destroy_all
           end
