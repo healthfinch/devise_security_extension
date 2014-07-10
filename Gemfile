@@ -3,7 +3,6 @@ source "http://rubygems.org"
 # Example:
 gem "rails", ">= 3.1.1"
 gem "devise", ">= 2.0.0"
-gem 'protected_attributes' , '~> 1.0.8'
 # Add dependencies to develop your gem here.
 # Include everything needed to run rake, tests, features, etc.
 group :development do
