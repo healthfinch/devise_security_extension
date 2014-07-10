@@ -29,7 +29,7 @@ module DeviseSecurityExtension
           if not devise_controller? and not ignore_password_expire? and not request.format.nil? and request.format.html?
             Devise.mappings.keys.flatten.any? do |scope|
               if signed_in?(scope) and warden.session(scope)['password_expired']
-                session["#{scope}_return_to"] = request.path if request.get?
+                session["#{scope}_return_to"] = request.fullpath if request.get?
                 redirect_for_password_change scope
                 return
               end
@@ -46,7 +46,7 @@ module DeviseSecurityExtension
         def change_password_required_path_for(resource_or_scope = nil)
           scope       = Devise::Mapping.find_scope!(resource_or_scope)
           change_path = "#{scope}_password_expired_path"
-          send(change_path)
+          _devise_route_context.send(change_path)
         end
         
         protected
